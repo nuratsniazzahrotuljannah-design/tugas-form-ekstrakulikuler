@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendaftaran Ekstrakurikuler SMK & AI Assistant</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Font Inter / Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#2563eb', // Royal Blue
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a', // Deep Navy
+                        },
+                        cyanBrand: {
+                            400: '#22d3ee',
+                            500: '#06b6d4',
+                            600: '#0891b2'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen relative antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 flex items-center gap-3 bg-slate-900 text-white px-5 py-3.5 rounded-2xl shadow-2xl transition-all duration-300 transform translate-y-[-120%] opacity-0 pointer-events-none border border-slate-700">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+        <div>
+            <h4 id="toastTitle" class="font-bold text-xs">Pemberitahuan</h4>
+            <p id="toastMessage" class="text-[11px] text-slate-300">Pendaftaran kamu telah terkirim.</p>
+        </div>
+    </div>
+
+    <!-- Navigation / Header Bar -->
+    <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-900 to-brand-600 flex items-center justify-center text-white text-lg font-bold shadow-md shadow-brand-600/30">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-sm sm:text-base text-slate-900 leading-tight">Sistem Pendaftaran Ekskul SMK</h1>
+                    <p class="text-[11px] text-slate-500 font-medium">Tahun Ajaran 2026 / 2027 • 14 Pilihan Ekskul</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="toggleChatDrawer()" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyanBrand-500/10 hover:bg-cyanBrand-500/20 text-cyanBrand-600 font-bold text-xs transition border border-cyanBrand-500/20">
+                    <i class="fa-solid fa-robot text-cyanBrand-500"></i>
+                    <span>Tanya AI Consultant</span>
+                </button>
+                <button onclick="openHistoryModal()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-2 border border-slate-200">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span class="hidden sm:inline">Cek Riwayat</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Form Section -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-8">
+        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-200/80 overflow-hidden">
+            
+            <!-- Hero Form Banner -->
+            <div class="bg-gradient-to-r from-brand-900 via-brand-800 to-brand-600 text-white p-6 sm:p-8 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cyanBrand-400/15 rounded-full blur-3xl pointer-events-none"></div>
+                
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
+                    <div>
+                        <span class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md text-cyan-200 text-[11px] font-bold px-3 py-1 rounded-full mb-2 border border-white/20">
+                            <i class="fa-solid fa-sparkles text-cyanBrand-400"></i> Dilengkapi Asisten Konsultasi AI
+                        </span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Formulir Pendaftaran Ekstrakurikuler</h2>
+                        <p class="text-xs sm:text-sm text-slate-200 mt-1 max-w-xl">
+                            Isi data diri dan tentukan pilihan ekstrakurikuler yang sesuai dengan bakat serta jurusan SMK kamu.
+                        </p>
+                    </div>
+
+                    <button type="button" onclick="toggleChatDrawer()" class="shrink-0 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-4 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2 transition sm:self-center">
+                        <i class="fa-solid fa-comments text-cyanBrand-400"></i>
+                        <span>Bingung Pilih Ekskul?</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form Body -->
+            <form id="ekskulForm" onsubmit="handleFormSubmit(event)" class="p-6 sm:p-8 space-y-8">
+                
+                <!-- SECTION 1: Data Diri Siswa -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-extrabold text-xs border border-brand-100">1</div>
+                        <div>
+                            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Data Diri Siswa</h3>
+                            <p class="text-[11px] text-slate-500">Pastikan informasi siswa valid dan sesuai data sekolah</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                        <!-- Nama Lengkap -->
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nama Lengkap Siswa <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="text" id="studentName" required placeholder="Contoh: Budi Pratama" class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <!-- NISN / NIS -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">NISN / NIS <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-id-card absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="number" id="studentNis" required placeholder="Contoh: 0061234567" class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <!-- Jenis Kelamin -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Jenis Kelamin <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-venus-mars absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <select id="studentGender" required class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
+                                    <option value="">Pilih Jenis Kelamin</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Kelas -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Kelas <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-layer-group absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <select id="studentClass" required class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
+                                    <option value=""> Pilih Tingkat Kelas </option>
+                                    <option value="X (Sepuluh)">Kelas X (Sepuluh)</option>
+                                    <option value="XI (Sebelas)">Kelas XI (Sebelas)</option>
+                                    <option value="XII (Dua Belas)">Kelas XII (Dua Belas)</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Jurusan SMK -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Jurusan SMK <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-laptop-code absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <select id="studentMajor" required class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
+                                    <option value=""> Pilih Jurusan SMK </option>
+                                    <option value="PPLG / RPL (Software Engineering)">PPLG / RPL (Pengembangan Perangkat Lunak)</option>
+                                    <option value="TKJ (Jaringan & Komputer)">TKT / TKJ (Teknik Jaringan Komputer)</option>
+                                    <option value="TSM (Teknik Sepeda Motor)">DKV (Desain Komunikasi Visual)</option>
+                                    <option value="TKR (Teknik Kendaraan Ringan)">TKR / Otomotif (Teknik Kendaraan Ringan)</option>
+                                    <option value="Kuliner / Tata Boga">Kuliner / Tata Boga</option>
+                                    <option value="Tata Busana">Tata Busana</option>
+                                    <option value="Jurusan Lainnya">Jurusan Lainnya</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp / HP -->
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Nomor WhatsApp / HP Aktif <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-brands fa-whatsapp absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="tel" id="studentPhone" required placeholder="Contoh: 081234567890" class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 2: Pilihan Ekstrakurikuler -->
+                <div>
+                    <div class="flex items-center justify-between mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-extrabold text-xs border border-brand-100">2</div>
+                            <div>
+                                <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Pilihan Ekstrakurikuler (14 Ekskul)</h3>
+                                <p class="text-[11px] text-slate-500">Pilih 1 ekskul utama dan 1 ekskul cadangan (opsional)</p>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="askAiRecommendation()" class="text-xs text-cyanBrand-600 hover:text-cyanBrand-700 font-bold flex items-center gap-1.5 bg-cyanBrand-50 px-2.5 py-1.5 rounded-lg border border-cyanBrand-200 transition">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span class="hidden sm:inline">Rekomendasi AI</span>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                        <!-- Ekskul Utama -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilihan Utama <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-star absolute left-3.5 top-1/2 -translate-y-1/2 text-brand-600 text-xs"></i>
+                                <select id="mainEkskul" required onchange="validateEkskulSelection()" class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
+                                    <option value=""> Pilih Ekskul Utama </option>
+                                    <option value="Jurnalistik">1. Jurnalistik (Media, Liputan, Layout)</option>
+                                    <option value="PMR">2. PMR (Palang Merah Remaja)</option>
+                                    <option value="Paskibra">3. Paskibra (Pasukan Pengibar Bendera)</option>
+                                    <option value="Pencak Silat">4. Pencak Silat (Seni Bela Diri)</option>
+                                    <option value="Nari">5. Nari / Seni Tari (Tradisional & Modern)</option>
+                                    <option value="Bahasa Jepang">6. Bahasa Jepang (Nihongo Club)</option>
+                                    <option value="Bantara">7. Bantara / Pramuka Penegak</option>
+                                    <option value="Futsal">8. Futsal (Olahraga Bola)</option>
+                                    <option value="Volly">9. Volly Ball</option>
+                                    <option value="Drumband">10. Drumband / Korps Musik</option>
+                                    <option value="Robbana">11. Robbana / Hadroh (Seni Musik Islam)</option>
+                                    <option value="Rohis">12. Rohis (Kerohanian Islam)</option>
+                                    <option value="Faster">13. Faster (Automotive / Tech / English Club)</option>
+                                    <option value="Padus">14. Padus (Paduan Suara)</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+
+                        <!-- Ekskul Cadangan -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Pilihan Cadangan <span class="text-slate-400 font-normal">(Opsional)</span></label>
+                            <div class="relative">
+                                <i class="fa-regular fa-star absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <select id="secondaryEkskul" onchange="validateEkskulSelection()" class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
+                                    <option value=""> Tanpa Cadangan </option>
+                                    <option value="Jurnalistik">1. Jurnalistik</option>
+                                    <option value="PMR">2. PMR (Palang Merah Remaja)</option>
+                                    <option value="Paskibra">3. Paskibra</option>
+                                    <option value="Pencak Silat">4. Pencak Silat</option>
+                                    <option value="Nari">5. Nari / Seni Tari</option>
+                                    <option value="Bahasa Jepang">6. Bahasa Jepang</option>
+                                    <option value="Bantara">7. Bantara / Pramuka</option>
+                                    <option value="Futsal">8. Futsal</option>
+                                    <option value="Volly">9. Volly Ball</option>
+                                    <option value="Drumband">10. Drumband</option>
+                                    <option value="Robbana">11. Robbana / Hadroh</option>
+                                    <option value="Rohis">12. Rohis</option>
+                                    <option value="Faster">13. Faster</option>
+                                    <option value="Padus">14. Padus</option>
+                                </select>
+                                <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION 3: Motivasi & Berkas -->
+                <div>
+                    <div class="flex items-center gap-2.5 mb-5 pb-2.5 border-b border-slate-200">
+                        <div class="w-8 h-8 rounded-xl bg-brand-50 text-brand-600 flex items-center justify-center font-extrabold text-xs border border-brand-100">3</div>
+                        <div>
+                            <h3 class="font-extrabold text-slate-900 text-sm sm:text-base">Motivasi & Persyaratan</h3>
+                            <p class="text-[11px] text-slate-500">Tuliskan alasan bergabung dan unggah berkas surat izin</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Alasan / Motivasi -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Alasan / Motivasi Bergabung <span class="text-rose-500">*</span></label>
+                            <textarea id="studentMotivation" required rows="3" placeholder="Tuliskan motivasi kamu bergabung dengan ekstrakurikuler ini..." class="w-full p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition resize-none"></textarea>
+                        </div>
+
+                        <!-- Upload Berkas -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Upload Bukti Izin Orang Tua / Berkas Syarat <span class="text-slate-400 font-normal">(PDF/JPG, Max 2MB)</span></label>
+                            <div class="relative border-2 border-dashed border-slate-200 hover:border-brand-500 rounded-2xl p-4 bg-slate-50 transition text-center group cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                                <input type="file" id="fileInput" accept=".pdf,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(event)">
+                                <div id="fileUploadUI">
+                                    <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 group-hover:text-brand-600 transition mb-1"></i>
+                                    <p class="text-xs font-bold text-slate-700">Klik untuk mengunggah berkas</p>
+                                    <p class="text-[10px] text-slate-400 mt-0.5" id="fileNameText">Format yang didukung: PDF, JPG, PNG</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms & Conditions Checkbox -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200/80">
+                    <label class="flex items-start gap-3 cursor-pointer">
+                        <input type="checkbox" id="termsCheck" required class="mt-0.5 rounded border-slate-300 text-brand-600 focus:ring-brand-500 w-4 h-4">
+                        <span class="text-xs text-slate-600 leading-relaxed font-medium">
+                            Saya menyatakan bahwa seluruh data yang diisi adalah benar, bersedia mematuhi tata tertib ekstrakurikuler SMK, serta siap berkomitmen hadir dalam jadwal latihan rutin.
+                        </span>
+                    </label>
+                </div>
+
+                <!-- Form Action Buttons -->
+                <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <button type="button" onclick="openHistoryModal()" class="w-full sm:w-auto text-xs font-bold text-slate-600 hover:text-brand-600 px-4 py-2.5 rounded-xl border border-slate-200 hover:border-brand-200 bg-white transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Cek Riwayat Pendaftaran</span>
+                    </button>
+
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button type="button" onclick="resetForm()" class="w-1/2 sm:w-auto px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold text-xs transition">
+                            Reset
+                        </button>
+                        <button type="submit" class="w-1/2 sm:w-auto flex-1 sm:flex-none px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs transition shadow-md shadow-brand-600/30 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i>
+                            <span>Kirim Pendaftaran</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <!-- AI CHATBOT DRAWER / FLOATING WIDGET -->
+    <div id="chatDrawer" class="fixed bottom-0 right-0 sm:right-6 sm:bottom-6 w-full sm:w-96 h-[85vh] sm:h-[580px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 z-50 transform translate-y-[120%] transition-transform duration-300 flex flex-col overflow-hidden">
+        
+        <!-- Chat Header -->
+        <div class="bg-gradient-to-r from-brand-900 via-brand-800 to-cyanBrand-600 text-white p-4 flex items-center justify-between shrink-0 shadow-sm">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-cyan-200 text-lg border border-white/20">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-slate-900 rounded-full"></span>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-xs text-white flex items-center gap-1.5">
+                        Asisten AI Ekskul SMK
+                        <span class="text-[9px] bg-cyanBrand-500/30 text-cyan-200 font-bold px-1.5 py-0.5 rounded">Gemini</span>
+                    </h3>
+                    <p class="text-[10px] text-slate-200">Konsultasi Rekomendasi & Informasi 14 Ekskul</p>
+                </div>
+            </div>
+
+            <button onclick="toggleChatDrawer()" class="text-white/80 hover:text-white p-1 rounded-lg transition">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+        </div>
+
+        <!-- Quick Prompts Bar -->
+        <div class="bg-slate-50 border-b border-slate-200/80 p-2.5 overflow-x-auto whitespace-nowrap custom-scrollbar flex items-center gap-2 shrink-0">
+            <button onclick="sendQuickPrompt('Ekskul apa yang cocok untuk anak PPLG / RPL?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
+                <i class="fa-solid fa-laptop-code text-brand-600"></i> Untuk PPLG/RPL?
+            </button>
+            <button onclick="sendQuickPrompt('Apa kelebihan ikut Jurnalistik SMK?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
+                <i class="fa-solid fa-newspaper text-amber-500"></i> Benefit Jurnalistik?
+            </button>
+            <button onclick="sendQuickPrompt('Bagaimana jadwal latihan Futsal dan Volly?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
+                <i class="fa-solid fa-futbol text-emerald-500"></i> Jadwal Futsal/Volly?
+            </button>
+            <button onclick="sendQuickPrompt('Rekomendasi ekskul untuk melatih kepemimpinan?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
+                <i class="fa-solid fa-award text-purple-500"></i> Melatih Leadership?
+            </button>
+        </div>
+
+        <!-- Chat Messages Container -->
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3.5 custom-scrollbar bg-slate-50/50">
+            <!-- Welcome Message from AI -->
+            <div class="flex items-start gap-2.5">
+                <div class="w-7 h-7 rounded-lg bg-brand-600 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-xs text-xs text-slate-700 shadow-sm leading-relaxed max-w-[85%]">
+                    Halo! 👋 Saya <b>Asisten AI Ekskul SMK</b>. Bingung mau pilih ekstrakurikuler mana dari 14 pilihan yang ada? 
+                    <br><br>
+                    Tanyakan jurusan SMK kamu atau minat kamu, nanti saya beri rekomendasi terbaik!
+                </div>
+            </div>
+        </div>
+
+        <!-- Typing Indicator (Hidden by default) -->
+        <div id="chatTyping" class="px-4 py-2 hidden flex items-center gap-2 text-[11px] text-slate-400 bg-white shrink-0">
+            <i class="fa-solid fa-circle-notch fa-spin text-brand-600"></i>
+            <span>AI sedang berpikir...</span>
+        </div>
+
+        <!-- Chat Input Form -->
+        <form onsubmit="handleChatSubmit(event)" class="p-3 bg-white border-t border-slate-200 shrink-0 flex items-center gap-2">
+            <input type="text" id="chatInput" placeholder="Tanya sesuatu tentang 14 ekskul SMK..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+            <button type="submit" id="chatSendBtn" class="w-9 h-9 rounded-xl bg-brand-600 hover:bg-brand-700 text-white flex items-center justify-center transition shrink-0">
+                <i class="fa-solid fa-paper-plane text-xs"></i>
+            </button>
+        </form>
+    </div>
+
+    <!-- Floating Chat Trigger Button -->
+    <button id="floatingChatBtn" onclick="toggleChatDrawer()" class="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-brand-700 to-cyanBrand-500 text-white p-3.5 rounded-full shadow-2xl flex items-center gap-2.5 ai-btn-glow transition transform hover:scale-105 active:scale-95">
+        <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-sm backdrop-blur-md">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <span class="text-xs font-extrabold pr-1 hidden sm:inline">Konsultasi AI Ekskul</span>
+    </button>
+
+    <!-- Modal Ringkasan Bukti Pendaftaran -->
+    <div id="summaryModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-100 transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-brand-800 to-brand-600 text-white p-5 text-center relative">
+                <div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center text-white text-xl mx-auto mb-2 backdrop-blur-md">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h3 class="font-extrabold text-base">Bukti Pendaftaran Resmi</h3>
+                <p class="text-xs text-slate-200">Simpan rincian pendaftaran ini sebagai bukti</p>
+                <button onclick="closeSummaryModal()" class="absolute right-4 top-4 text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="p-5 text-xs space-y-3" id="summaryContent">
+                <!-- Inserted by JS -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button onclick="closeSummaryModal()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl text-xs transition">
+                    Selesai & Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Riwayat Pendaftaran -->
+    <div id="historyModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center pb-3 border-b border-slate-100 mb-3">
+                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-clipboard-list text-brand-600"></i> Riwayat Pendaftaran Terdaftar
+                </h3>
+                <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <div id="historyList" class="space-y-2.5 max-h-72 overflow-y-auto pr-1 custom-scrollbar">
+                <!-- Inserted by JS -->
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
+                <button onclick="clearHistory()" class="text-[11px] text-rose-600 font-bold hover:underline">Hapus Semua Riwayat</button>
+                <button onclick="closeHistoryModal()" class="px-4 py-1.5 rounded-xl bg-slate-800 text-white font-bold text-xs">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+       <script src="script.js"></script>
+</body>
+</html>
