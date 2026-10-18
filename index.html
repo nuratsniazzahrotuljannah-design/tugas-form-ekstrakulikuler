@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pendaftaran Ekstrakurikuler SMK & AI Assistant</title>
+    <title>Pendaftaran Ekstrakurikuler SMK</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -61,16 +61,12 @@
                     <i class="fa-solid fa-graduation-cap"></i>
                 </div>
                 <div>
-                    <h1 class="font-extrabold text-sm sm:text-base text-slate-900 leading-tight">Sistem Pendaftaran Ekskul SMK</h1>
+                    <h1 class="font-extrabold text-sm sm:text-base text-slate-900 leading-tight">Sistem Pendaftaran Ekskul SMKN Tengaran</h1>
                     <p class="text-[11px] text-slate-500 font-medium">Tahun Ajaran 2026 / 2027 • 14 Pilihan Ekskul</p>
                 </div>
             </div>
 
             <div class="flex items-center gap-2">
-                <button onclick="toggleChatDrawer()" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-cyanBrand-500/10 hover:bg-cyanBrand-500/20 text-cyanBrand-600 font-bold text-xs transition border border-cyanBrand-500/20">
-                    <i class="fa-solid fa-robot text-cyanBrand-500"></i>
-                    <span>Tanya AI Consultant</span>
-                </button>
                 <button onclick="openHistoryModal()" class="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-2 border border-slate-200">
                     <i class="fa-solid fa-clock-rotate-left"></i>
                     <span class="hidden sm:inline">Cek Riwayat</span>
@@ -90,18 +86,13 @@
                 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
                     <div>
                         <span class="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-md text-cyan-200 text-[11px] font-bold px-3 py-1 rounded-full mb-2 border border-white/20">
-                            <i class="fa-solid fa-sparkles text-cyanBrand-400"></i> Dilengkapi Asisten Konsultasi AI
+                            <i class="fa-solid fa-sparkles text-cyanBrand-400"></i> Formulir Online
                         </span>
                         <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Formulir Pendaftaran Ekstrakurikuler</h2>
                         <p class="text-xs sm:text-sm text-slate-200 mt-1 max-w-xl">
                             Isi data diri dan tentukan pilihan ekstrakurikuler yang sesuai dengan bakat serta jurusan SMK kamu.
                         </p>
                     </div>
-
-                    <button type="button" onclick="toggleChatDrawer()" class="shrink-0 bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 text-white px-4 py-2.5 rounded-2xl font-bold text-xs flex items-center gap-2 transition sm:self-center">
-                        <i class="fa-solid fa-comments text-cyanBrand-400"></i>
-                        <span>Bingung Pilih Ekskul?</span>
-                    </button>
                 </div>
             </div>
 
@@ -174,15 +165,34 @@
                                 <select id="studentMajor" required class="w-full pl-9 pr-8 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition appearance-none">
                                     <option value=""> Pilih Jurusan SMK </option>
                                     <option value="PPLG / RPL (Software Engineering)">PPLG / RPL (Pengembangan Perangkat Lunak)</option>
-                                    <option value="TKJ (Jaringan & Komputer)">TKT / TKJ (Teknik Jaringan Komputer)</option>
-                                    <option value="TSM (Teknik Sepeda Motor)">DKV (Desain Komunikasi Visual)</option>
-                                    <option value="TKR (Teknik Kendaraan Ringan)">TKR / Otomotif (Teknik Kendaraan Ringan)</option>
+                                    <option value="TKJ (Jaringan & Komputer)">TKJ (Teknik Jaringan Komputer)</option>
+                                    <option value="TSM (Teknik Sepeda Motor)">TSM (Teknik Sepeda Motor)</option>
+                                    <option value="TKR (Teknik Kendaraan Ringan)">TKR (Teknik Kendaraan Ringan)</option>
                                     <option value="Kuliner / Tata Boga">Kuliner / Tata Boga</option>
                                     <option value="Tata Busana">Tata Busana</option>
                                     <option value="Jurusan Lainnya">Jurusan Lainnya</option>
                                 </select>
                                 <i class="fa-solid fa-chevron-down absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs pointer-events-none"></i>
                             </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Email <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-envelope absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="email" id="studentEmail" required placeholder="Contoh: siswa@gmail.com" class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Password <span class="text-rose-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-lock absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                                <input type="password" id="studentPassword" required minlength="8" placeholder="Minimal 8 karakter" class="w-full pl-9 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
+                            </div>
+                            <p class="text-[10px] text-slate-400 mt-1">Password harus minimal 8 karakter.</p>
                         </div>
 
                         <!-- WhatsApp / HP -->
@@ -206,11 +216,6 @@
                                 <p class="text-[11px] text-slate-500">Pilih 1 ekskul utama dan 1 ekskul cadangan (opsional)</p>
                             </div>
                         </div>
-
-                        <button type="button" onclick="askAiRecommendation()" class="text-xs text-cyanBrand-600 hover:text-cyanBrand-700 font-bold flex items-center gap-1.5 bg-cyanBrand-50 px-2.5 py-1.5 rounded-lg border border-cyanBrand-200 transition">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            <span class="hidden sm:inline">Rekomendasi AI</span>
-                        </button>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
@@ -331,86 +336,6 @@
         </div>
     </main>
 
-    <!-- AI CHATBOT DRAWER / FLOATING WIDGET -->
-    <div id="chatDrawer" class="fixed bottom-0 right-0 sm:right-6 sm:bottom-6 w-full sm:w-96 h-[85vh] sm:h-[580px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl border border-slate-200/90 z-50 transform translate-y-[120%] transition-transform duration-300 flex flex-col overflow-hidden">
-        
-        <!-- Chat Header -->
-        <div class="bg-gradient-to-r from-brand-900 via-brand-800 to-cyanBrand-600 text-white p-4 flex items-center justify-between shrink-0 shadow-sm">
-            <div class="flex items-center gap-3">
-                <div class="relative">
-                    <div class="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-md flex items-center justify-center text-cyan-200 text-lg border border-white/20">
-                        <i class="fa-solid fa-robot"></i>
-                    </div>
-                    <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-slate-900 rounded-full"></span>
-                </div>
-                <div>
-                    <h3 class="font-extrabold text-xs text-white flex items-center gap-1.5">
-                        Asisten AI Ekskul SMK
-                        <span class="text-[9px] bg-cyanBrand-500/30 text-cyan-200 font-bold px-1.5 py-0.5 rounded">Gemini</span>
-                    </h3>
-                    <p class="text-[10px] text-slate-200">Konsultasi Rekomendasi & Informasi 14 Ekskul</p>
-                </div>
-            </div>
-
-            <button onclick="toggleChatDrawer()" class="text-white/80 hover:text-white p-1 rounded-lg transition">
-                <i class="fa-solid fa-xmark text-base"></i>
-            </button>
-        </div>
-
-        <!-- Quick Prompts Bar -->
-        <div class="bg-slate-50 border-b border-slate-200/80 p-2.5 overflow-x-auto whitespace-nowrap custom-scrollbar flex items-center gap-2 shrink-0">
-            <button onclick="sendQuickPrompt('Ekskul apa yang cocok untuk anak PPLG / RPL?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
-                <i class="fa-solid fa-laptop-code text-brand-600"></i> Untuk PPLG/RPL?
-            </button>
-            <button onclick="sendQuickPrompt('Apa kelebihan ikut Jurnalistik SMK?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
-                <i class="fa-solid fa-newspaper text-amber-500"></i> Benefit Jurnalistik?
-            </button>
-            <button onclick="sendQuickPrompt('Bagaimana jadwal latihan Futsal dan Volly?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
-                <i class="fa-solid fa-futbol text-emerald-500"></i> Jadwal Futsal/Volly?
-            </button>
-            <button onclick="sendQuickPrompt('Rekomendasi ekskul untuk melatih kepemimpinan?')" class="text-[10px] font-bold text-slate-700 hover:text-brand-600 bg-white hover:bg-brand-50 border border-slate-200 px-2.5 py-1 rounded-full transition shrink-0 flex items-center gap-1">
-                <i class="fa-solid fa-award text-purple-500"></i> Melatih Leadership?
-            </button>
-        </div>
-
-        <!-- Chat Messages Container -->
-        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3.5 custom-scrollbar bg-slate-50/50">
-            <!-- Welcome Message from AI -->
-            <div class="flex items-start gap-2.5">
-                <div class="w-7 h-7 rounded-lg bg-brand-600 text-white flex items-center justify-center text-xs shrink-0 mt-0.5">
-                    <i class="fa-solid fa-robot"></i>
-                </div>
-                <div class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-xs text-xs text-slate-700 shadow-sm leading-relaxed max-w-[85%]">
-                    Halo! 👋 Saya <b>Asisten AI Ekskul SMK</b>. Bingung mau pilih ekstrakurikuler mana dari 14 pilihan yang ada? 
-                    <br><br>
-                    Tanyakan jurusan SMK kamu atau minat kamu, nanti saya beri rekomendasi terbaik!
-                </div>
-            </div>
-        </div>
-
-        <!-- Typing Indicator (Hidden by default) -->
-        <div id="chatTyping" class="px-4 py-2 hidden flex items-center gap-2 text-[11px] text-slate-400 bg-white shrink-0">
-            <i class="fa-solid fa-circle-notch fa-spin text-brand-600"></i>
-            <span>AI sedang berpikir...</span>
-        </div>
-
-        <!-- Chat Input Form -->
-        <form onsubmit="handleChatSubmit(event)" class="p-3 bg-white border-t border-slate-200 shrink-0 flex items-center gap-2">
-            <input type="text" id="chatInput" placeholder="Tanya sesuatu tentang 14 ekskul SMK..." class="flex-1 px-3.5 py-2 rounded-xl bg-slate-100 border border-slate-200 text-xs font-medium focus:outline-none focus:border-brand-600 focus:bg-white transition">
-            <button type="submit" id="chatSendBtn" class="w-9 h-9 rounded-xl bg-brand-600 hover:bg-brand-700 text-white flex items-center justify-center transition shrink-0">
-                <i class="fa-solid fa-paper-plane text-xs"></i>
-            </button>
-        </form>
-    </div>
-
-    <!-- Floating Chat Trigger Button -->
-    <button id="floatingChatBtn" onclick="toggleChatDrawer()" class="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-brand-700 to-cyanBrand-500 text-white p-3.5 rounded-full shadow-2xl flex items-center gap-2.5 ai-btn-glow transition transform hover:scale-105 active:scale-95">
-        <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-sm backdrop-blur-md">
-            <i class="fa-solid fa-robot"></i>
-        </div>
-        <span class="text-xs font-extrabold pr-1 hidden sm:inline">Konsultasi AI Ekskul</span>
-    </button>
-
     <!-- Modal Ringkasan Bukti Pendaftaran -->
     <div id="summaryModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-100 transform transition-all">
@@ -458,6 +383,7 @@
             </div>
         </div>
     </div>
+
 
        <script src="script.js"></script>
 </body>
